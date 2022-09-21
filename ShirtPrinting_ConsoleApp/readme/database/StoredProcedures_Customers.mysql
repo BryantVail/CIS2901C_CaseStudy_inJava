@@ -1,0 +1,26 @@
+
+
+
+Create Procedure AddCusstomer(
+  IN emailAddress, 
+  IN firstName, 
+  IN lastName)
+BEGIN 
+
+  Insert into Customers(
+    EmailAddress, 
+    FirstName, 
+    LastName)
+  Values(
+    emailAddress, 
+    firstName, 
+    lastName
+  );
+
+  SELECT * 
+  FROM Customers
+  WHERE Id = (SELECT Last_Insert_Id());
+
+END
+
+
