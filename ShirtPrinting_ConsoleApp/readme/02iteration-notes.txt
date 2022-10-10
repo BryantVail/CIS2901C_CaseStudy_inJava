@@ -1,0 +1,24 @@
+Score 89/105 - 56 (4 days late) = 33/105. 
+	See details in attached grading sheets. 
+	Your increment 1 was a good start. 
+	However you need to submit on time. 
+	The late penalties are really hurting your grade. 
+	Below are some comments on your increment #1.
+
+
+1. (-3) In your documentation, include a copy of what the input dialog looks like when adding a customer. See the sample documentation in Canvas.
+
+2. (-6) In your documentation, 
+	include a chart for adding a customer that lists: 
+	  each input field, 
+	  what type of data is needed, 
+	  is it required or optional, 
+	  and any necessary format (date, email, phone numbers, etc). 
+	> See the sample documentation in Canvas.
+
+3. Instead of using text commands like Add, GetAll, GetById, use numbers (1, 2, 3). 
+	This is much easier for the user. 
+	Set up a menu like in the Canvas example. 
+	If not, at least allow upper and lower case commands.
+
+4. (-2) When using GetById, I entered an invalid customerId. I should receive an error message that the product doesn’t exist. Instead, the first row in the table is returned.

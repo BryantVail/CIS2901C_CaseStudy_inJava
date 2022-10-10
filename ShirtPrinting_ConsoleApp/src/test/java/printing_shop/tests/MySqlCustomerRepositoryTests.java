@@ -5,12 +5,11 @@ import org.junit.jupiter.api.Test;
 import printing_shop.MySqlCustomerRepository;
 import printing_shop.domain.AddCustomerRequest;
 import printing_shop.domain.Customer;
+import printing_shop.domain.exceptions.DatabaseInternalException;
+import printing_shop.domain.exceptions.RecordDoesNotExistException;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MySqlCustomerRepositoryTests {
 
@@ -38,9 +37,23 @@ class MySqlCustomerRepositoryTests {
         Assertions.assertTrue(Integer.valueOf(customer.Id) > 10000);
     }
 
+    @Test void AddCustomer__when_email_already_exists_returns_argumentException(){
+        // arrange
+        var mySqlCustomerRepository
+                = new MySqlCustomerRepository(connectionString);
+        var addCustomerRequest = new AddCustomerRequest(
+                "bryanttv@outlook.com",
+                "testFirstName",
+                "testLastName" );
+        // act
+        // assert
+        Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> mySqlCustomerRepository.AddCustomer(addCustomerRequest));
+    }
 
     @Test
-    void GetCustomer_by_id__given_a_known_id_returns_row_with_expected_email() {
+    void GetCustomer_by_id__given_a_known_id_returns_row_with_expected_email() throws DatabaseInternalException, RecordDoesNotExistException {
 
         // arrange
         var mySqlCustomerRepository =
@@ -55,20 +68,37 @@ class MySqlCustomerRepositoryTests {
 
     }
 
+    @Test
+    void GetCustomerById_when_id_does_not_exist_throws_record_does_not_exist(){
+        // arrange
+        var mySqlCustomerRepository =
+                new MySqlCustomerRepository(connectionString);
+        int id = 10;
+
+        // act
+        // assert
+        Assertions.assertThrows(
+                RecordDoesNotExistException.class,
+                () -> mySqlCustomerRepository.GetCustomer(String.valueOf(id)));
+    }
+
     @Test void GetCustomers_given_an_active_database_returns_more_than_10_records(){
         // arrange
         var mySqlCustomerRepository
                 = new MySqlCustomerRepository(connectionString);
 
         // act
-        var customers = mySqlCustomerRepository.getCustomers();
+        var customers = mySqlCustomerRepository.getAsync();
 
         // assert
-        Assertions.assertTrue(((Collection<Customer>)customers).size() > 10);
+        Assertions.assertTrue(((Collection<Customer>) customers).size() > 10);
+
     }
 
+
+
     @Test
-    void updateCustomer() throws Exception {
+    void updateCustomer_when() throws Exception {
         throw new Exception();
     }
 

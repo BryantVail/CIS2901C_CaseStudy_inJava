@@ -1,12 +1,15 @@
 
 
 import printing_shop.BasicCustomerManager;
-import printing_shop.ConsoleUI.ConsoleUI;
+import printing_shop.consoleUI.ConsoleUI;
 import printing_shop.ICustomerManager;
 import printing_shop.ICustomerRepository;
 import printing_shop.MySqlCustomerRepository;
 import printing_shop.domain.AddCustomerRequest;
 import printing_shop.domain.Customer;
+import printing_shop.domain.exceptions.DatabaseInternalException;
+import printing_shop.domain.exceptions.IdentifierNotParsableToCorrectTypeException;
+import printing_shop.domain.exceptions.RecordDoesNotExistException;
 import printing_shop.utility.BasicLogger;
 import printing_shop.utility.ILogger;
 
@@ -48,10 +51,16 @@ public class Program {
 
             String value = input.nextLine();
 
-            switch(value){
-                case "C":
+            switch(value.toLowerCase()){
+                case "c":
                     ManageCustomers(customerManager);
-                case "O":
+                    System.out.println(ConsoleUI.UnderscoreLine(10));
+                    break;
+                case "o":
+                    System.out.println(
+                            "I'm sorry, this feature is not ready");
+                    break;
+                case "p":
                     System.out.println(
                             "I'm sorry, this feature is not ready");
                     break;
@@ -73,10 +82,11 @@ public class Program {
                             "\"Add\" for Adding a customer\n" +
                             "\"GetAll\" for retrieving all the customers\n"+
                             "\"GetById\" to search for a customer by their Id\n" +
+                            "\"GetByEmail\" to search by emailAddress\n"+
                             "\"exit\" to go back to previous menu");
             String value = input.nextLine();
-            switch(value){
-                case "Add":
+            switch(value.toLowerCase()){
+                case "add":
                     System.out.println("please enter the email for the customer");
                     AddCustomerRequest request = new AddCustomerRequest();
                     request.EmailAddress = input.nextLine();
@@ -87,11 +97,12 @@ public class Program {
                     System.out.println("now please enter the last name of the customer");
                     request.LastName = input.nextLine();
 
+
                     var customer = customerManager.AddCustomer(request);
                     printCustomer(customer);
                     break;
 
-                case "GetAll":
+                case "getall":
                     var customers
                             = (Collection<Customer>)customerManager
                             .GetCustomers();
@@ -101,12 +112,24 @@ public class Program {
                         printCustomer((Customer) customersArray[i]);
                     }
                     break;
-                case "GetById":
+                case "getbyid":
+
                     System.out.println("Please enter customerId exactly");
                     var id = input.nextLine();
+                    try{
 
-                    customer = customerManager.GetCustomer(id);
-                    printCustomer(customer);
+                        customer = customerManager.GetCustomer(id);
+                        printCustomer(customer);
+                    }catch (RecordDoesNotExistException exception){
+                        System.out.println(
+                            "No record exists with the ID: "+
+                            id);
+                    } catch (DatabaseInternalException e) {
+                        System.out.println(
+                            "internal database error, not business logic");
+                    } catch(IdentifierNotParsableToCorrectTypeException exception){
+
+                    }
                 case "exit":
                     return;
                 default:

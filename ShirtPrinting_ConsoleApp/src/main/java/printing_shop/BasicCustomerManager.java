@@ -2,6 +2,8 @@ package printing_shop;
 
 import printing_shop.domain.AddCustomerRequest;
 import printing_shop.domain.Customer;
+import printing_shop.domain.exceptions.DatabaseInternalException;
+import printing_shop.domain.exceptions.RecordDoesNotExistException;
 import printing_shop.utility.ILogger;
 
 public class BasicCustomerManager
@@ -23,12 +25,13 @@ public class BasicCustomerManager
 
     @Override
     public Iterable<Customer> GetCustomers() {
-        return customerRepository.getCustomers();
+
+        return customerRepository.getAsync();
     }
 
 
     @Override
-    public Customer GetCustomer(String id) {
+    public Customer GetCustomer(String id) throws DatabaseInternalException, RecordDoesNotExistException {
 
         return (Customer) customerRepository.GetCustomer(id);
     }
@@ -39,7 +42,7 @@ public class BasicCustomerManager
     }
 
     @Override
-    public boolean DeleteCustomer(String id) {
+    public boolean DeleteCustomer(String id) throws DatabaseInternalException, RecordDoesNotExistException {
         var customer = this.GetCustomer(id);
         boolean successful = false;
         try{
