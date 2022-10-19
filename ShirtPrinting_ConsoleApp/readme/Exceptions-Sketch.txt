@@ -1,0 +1,41 @@
+UserInterfaceLayer()
+	catch: 
+	  Domain Exceptions, 
+	  
+
+ServiceLayer: 
+	throw:
+	  // custom/domain exceptions
+	  email already in use exception, 
+	  
+
+DatabaseLayer: 
+	catch: 
+	  sql, 
+	  
+	
+	throw: 
+	  record_does_not_exist, 
+	  id_cannot_be_parsed_to_correct_type, 
+	  
+
+
+
+__________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,6 +1,6 @@
 package printing_shop.domain.exceptions;
 
-public class IdentifierNotParsableToCorrectTypeException extends Exception {
+public class IdentifierNotParsableToCorrectTypeException extends RuntimeException {
 
 
     public IdentifierNotParsableToCorrectTypeException(

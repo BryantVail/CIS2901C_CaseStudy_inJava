@@ -7,9 +7,7 @@ import printing_shop.ICustomerRepository;
 import printing_shop.MySqlCustomerRepository;
 import printing_shop.domain.AddCustomerRequest;
 import printing_shop.domain.Customer;
-import printing_shop.domain.exceptions.DatabaseInternalException;
-import printing_shop.domain.exceptions.IdentifierNotParsableToCorrectTypeException;
-import printing_shop.domain.exceptions.RecordDoesNotExistException;
+import printing_shop.domain.exceptions.*;
 import printing_shop.utility.BasicLogger;
 import printing_shop.utility.ILogger;
 
@@ -78,25 +76,31 @@ public class Program {
 
         while(true){
             System.out.println(
-                    "Customer Actions: type the command to begin the process \n\n" +
-                            "\"Add\" for Adding a customer\n" +
-                            "\"GetAll\" for retrieving all the customers\n"+
-                            "\"GetById\" to search for a customer by their Id\n" +
-                            "\"GetByEmail\" to search by emailAddress\n"+
-                            "\"exit\" to go back to previous menu");
+                "Customer Actions: type the command to begin the process \n\n" +
+                    "\"Add\" for Adding a customer\n" +
+                    "\"GetAll\" for retrieving all the customers\n"+
+                    "\"GetById\" to search for a customer by their Id\n" +
+                    "\"GetByEmail\" to search by emailAddress\n"+
+                    "\"Deactivate\" to deactivate a customer in the system\n"+
+                    "\"Activate\" to activate an existing customer in the system\n"+
+                    "\"exit\" to go back to previous menu");
             String value = input.nextLine();
             switch(value.toLowerCase()){
                 case "add":
-                    System.out.println("please enter the email for the customer");
-                    AddCustomerRequest request = new AddCustomerRequest();
+                    AddCustomerRequest request =
+                            new AddCustomerRequest();
+                    System.out.println(
+                        "please enter the email for the customer");
+
                     request.EmailAddress = input.nextLine();
 
-                    System.out.println("enter the firstName of the customer");
+                    System.out.println(
+                        "enter the firstName of the customer");
                     request.FirstName = input.nextLine();
 
-                    System.out.println("now please enter the last name of the customer");
+                    System.out.println(
+                        "now please enter the last name of the customer");
                     request.LastName = input.nextLine();
-
 
                     var customer = customerManager.AddCustomer(request);
                     printCustomer(customer);
@@ -130,6 +134,68 @@ public class Program {
                     } catch(IdentifierNotParsableToCorrectTypeException exception){
 
                     }
+                case "deactivate":
+                    while(true){
+                        System.out.println("Please enter email of customer to deactivate or \"back\" to go back");
+                        String emailAddress = input.nextLine();
+                        if(emailAddress.toLowerCase().compareTo("back") == 0){
+                            break;
+                        }else{
+                            try{
+                                var customerToDeactivate =
+                                    customerManager.getCustomerByEmail(
+                                      emailAddress.toLowerCase());
+                                var deactivatedCustomer =
+                                 customerManager.changeDeletedStatus(
+                                    customerToDeactivate.Id,
+                                    true);
+                                System.out.println(
+                                  "customer has been deactivated");
+                                printCustomer(deactivatedCustomer);
+                            }catch(RecordDoesNotExistException exception){
+                                System.out.println("no customer found with the email address entered");
+                            }catch(DatabaseInternalException exception){
+                                System.out.println(exception.getGenericMessage());
+                            }catch(AttemptingChangeOfDeletedStatusToCurrentStatusException exception){
+                                System.out.println(exception.getGenericMessage());
+                                System.out.println("\n\n");
+                            }catch(Exception exception){
+                                System.out.println("unknown application error");
+                            }
+                        }
+                    }
+                    break;
+
+                case "activate":
+                    while(true){
+                        System.out.println("Please enter email of customer to re-activate or \"back\" to go back");
+                        String emailAddress = input.nextLine();
+                        if(emailAddress.toLowerCase().compareTo("back") == 0){
+                            break;
+                        }else{
+                            try{
+                                var customerToDeactivate =
+                                  customerManager.getCustomerByEmail(emailAddress);
+                                var deactivatedCustomer =
+                                  customerManager.changeDeletedStatus(
+                                    customerToDeactivate.Id,
+                                    false);
+                                System.out.println(
+                                  "customer has been re-activated");
+                                printCustomer(deactivatedCustomer);
+                            }catch(RecordDoesNotExistException exception){
+                                System.out.println("no customer found with the email address entered");
+                            }catch(DatabaseInternalException exception){
+                                System.out.println(exception.getGenericMessage());
+                            }catch(AttemptingChangeOfDeletedStatusToCurrentStatusException exception){
+                                System.out.println(exception.getGenericMessage());
+                                System.out.println("\n\n");
+                            }catch(Exception exception){
+                                System.out.println("unknown application error");
+                            }
+                        }
+                    }
+                    break;
                 case "exit":
                     return;
                 default:
