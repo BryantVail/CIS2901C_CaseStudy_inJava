@@ -1,6 +1,6 @@
 package printing_shop.domain.exceptions;
 
-public class RecordDoesNotExistException extends Exception{
+public class RecordDoesNotExistException extends RuntimeException{
 
 
     public RecordDoesNotExistException(String identifier){

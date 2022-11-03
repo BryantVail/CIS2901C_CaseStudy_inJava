@@ -6,6 +6,7 @@ import printing_shop.MySqlCustomerRepository;
 import printing_shop.domain.AddCustomerRequest;
 import printing_shop.domain.Customer;
 import printing_shop.domain.exceptions.DatabaseInternalException;
+import printing_shop.domain.exceptions.AttemptingChangeOfDeletedStatusToCurrentStatusException;
 import printing_shop.domain.exceptions.RecordDoesNotExistException;
 
 import java.time.LocalDateTime;
@@ -53,7 +54,7 @@ class MySqlCustomerRepositoryTests {
     }
 
     @Test
-    void GetCustomer_by_id__given_a_known_id_returns_row_with_expected_email() throws DatabaseInternalException, RecordDoesNotExistException {
+    void GetCustomerById__given_a_known_id_returns_row_with_expected_email() throws DatabaseInternalException, RecordDoesNotExistException {
 
         // arrange
         var mySqlCustomerRepository =
@@ -95,15 +96,38 @@ class MySqlCustomerRepositoryTests {
 
     }
 
-
-
     @Test
     void updateCustomer_when() throws Exception {
         throw new Exception();
     }
 
+    
     @Test
-    void deleteCustomer() throws Exception {
-        throw new Exception();
+    public void changeDeletedStatus_given_newly_created_customer_when_deleted_then_StoredProcedure_runs_without_databaseException_and_status_is_changed_in_database(){
+
+    }
+    
+    @Test
+    public void getByEmailAddress_given_empty_string_as_emailAddress_throws_RecordDoesNotExistException(){
+        // arrange
+        var mySqlCustomerRepository = new MySqlCustomerRepository(this.connectionString);
+        
+        // act
+        // assert
+        Assertions.assertThrows(
+          RecordDoesNotExistException.class,
+          () -> mySqlCustomerRepository.getByEmailAddress(""));
+    }
+    
+    @Test
+    public void getByEmailAddress_given_account_with_known_email_address_returns_customer_using_storedProcedure(){
+        // arrange
+        var mySqlCustomerRepository = new MySqlCustomerRepository(this.connectionString);
+        String emailAddress = "email@gmail.com";
+        // act
+        var customer = mySqlCustomerRepository.getByEmailAddress(emailAddress);
+        
+        // assert
+        Assertions.assertEquals(customer.EmailAddress, emailAddress);
     }
 }

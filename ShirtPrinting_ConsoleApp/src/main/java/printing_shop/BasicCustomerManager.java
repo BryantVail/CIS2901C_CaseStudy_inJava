@@ -3,6 +3,7 @@ package printing_shop;
 import printing_shop.domain.AddCustomerRequest;
 import printing_shop.domain.Customer;
 import printing_shop.domain.exceptions.DatabaseInternalException;
+import printing_shop.domain.exceptions.AttemptingChangeOfDeletedStatusToCurrentStatusException;
 import printing_shop.domain.exceptions.RecordDoesNotExistException;
 import printing_shop.utility.ILogger;
 
@@ -31,7 +32,7 @@ public class BasicCustomerManager
 
 
     @Override
-    public Customer GetCustomer(String id) throws DatabaseInternalException, RecordDoesNotExistException {
+    public Customer GetCustomer(String id) {
 
         return (Customer) customerRepository.GetCustomer(id);
     }
@@ -42,15 +43,29 @@ public class BasicCustomerManager
     }
 
     @Override
-    public boolean DeleteCustomer(String id) throws DatabaseInternalException, RecordDoesNotExistException {
+    public Customer changeDeletedStatus(String id, boolean changeToDeleted)
+            throws DatabaseInternalException, RecordDoesNotExistException, AttemptingChangeOfDeletedStatusToCurrentStatusException {
+
         var customer = this.GetCustomer(id);
-        boolean successful = false;
-        try{
-            successful = this.customerRepository.DeleteCustomer(id);
-            return successful;
-        }catch(Exception exception){
-            return false;
+        boolean initialDeletedStatus = customer.Deleted;
+        if(customer.Deleted == changeToDeleted){
+            throw new AttemptingChangeOfDeletedStatusToCurrentStatusException();
+        }else{
+            Customer deletedCustomer = (Customer) this.customerRepository.changeDeletedStatus(
+                id, changeToDeleted);
+            if(deletedCustomer.Deleted != initialDeletedStatus){
+                return deletedCustomer;
+            }else{
+                throw new DatabaseInternalException(
+                    "deleted status not updated");
+            }
         }
+    }
+
+    @Override
+    public Customer getCustomerByEmail(String emailAddress) {
+        return (Customer) this.customerRepository.getByEmailAddress(emailAddress);
+        
     }
 }
 

@@ -16,9 +16,37 @@ Score 89/105 - 56 (4 days late) = 33/105.
 	  and any necessary format (date, email, phone numbers, etc). 
 	> See the sample documentation in Canvas.
 
-3. Instead of using text commands like Add, GetAll, GetById, use numbers (1, 2, 3). 
+x3. Instead of using text commands like Add, GetAll, GetById, use numbers (1, 2, 3). 
 	This is much easier for the user. 
 	Set up a menu like in the Canvas example. 
 	If not, at least allow upper and lower case commands.
 
 4. (-2) When using GetById, I entered an invalid customerId. I should receive an error message that the product doesn’t exist. Instead, the first row in the table is returned.
+
+
+__________
+
+Additional Features: 
+	customer
+	  changeDeletedStatus(string id, boolean changeToDeleted = true);, 
+		given an active customer when function is run deleted flag is updated to true and is not,
+		given an inactive customer when active customers are returned then inactive customer is not found,
+		given an inactive customer when delete function is called illegal argument exception is then thrown,
+		
+	  update, 
+		given an active customer when updating if deleted status is different than persisted status then 			  throw_CannotDeleteThroughUpdateException 
+		given an existing record when updating an email and the desired new email is in use 
+		
+	order
+	  create
+
+
+
+
+
+
+
+
+
+
+
