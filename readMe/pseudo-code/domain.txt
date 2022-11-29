@@ -1,0 +1,25 @@
+
+
+
+class Product {
+  string Id, 
+  string Name, 
+  string Description,
+  string ProductType
+  string Maker, 
+  
+}, 
+
+class ScreenPrintedProduct : Product, ILineItem {
+
+  IEnumerable<PrintLocations> PrintLocations, 
+}
+
+class PrintLocation {
+  string Location, 
+  uint SizeInCentimeters, 
+  uint ColorCount, 
+  string ImageUrl, 
+}
+
+

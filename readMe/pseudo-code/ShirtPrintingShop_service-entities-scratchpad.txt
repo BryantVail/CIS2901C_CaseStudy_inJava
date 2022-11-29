@@ -1,0 +1,77 @@
+
+
+interface IECommerceShop<IOrder, ILineItem> {
+
+  IOrder AddOrder(
+    string customerId, 
+    IEnumerable<LineItem> LineItems, 
+  ), 
+  IOrder CompleteOrder(string orderId);
+  IOrder UpdateOrderInfo(IOrder order);
+  IOrder CancelOrder(string orderId);
+  IOrder PayForOrder(
+    PaymentMethod paymentMethod, 
+    IOrder order); 
+
+  IOrder PayForOrder(
+    PaymentMethod paymentMethod, 
+    IOrder order, 
+    decimal paymentAmount); 
+    
+  decimal RefundOrder(
+    IOrder order); 
+
+  IEnumerable<IOrder> GetOrdersByCustomer(string customerId);
+
+}
+
+interface IOrderAggregator<IOrder> {
+  GetAsync(string Id);
+  GetByStateAsync(string state);
+  GetWithTotalGreaterThan(decimal valueToBeGreaterThan, bool orEqualTo = true);
+  GetWithTotalLessThan(decimal valueToBeLessThan, bool orEqualTo = true);
+  GetByYear(uint year);
+  GetByMonth(uint year, uint month);
+  GetByDate(Date date);
+  GetByDate(uint year, uint month, uint day);
+
+}
+
+interface IOrder {
+  decimal GetTotal();
+  bool IsCompleted();
+  DateTime GetOrderDate();
+  IEnumerable<IOrderItem> GetLineItems();
+}
+
+interface ILineItem{
+  string GetDescription();
+  decimal GetPrice();
+  uint GetQuantity();
+  uint AddQuantity(uint additionalQuantityToAdd);
+  uint SubtractQuantity(uint quantityToSubtract);
+}
+
+class ShirtPrintingShop: IECommerceShop<IOrder, ILineItem> {
+
+  IOrder AddOrder(
+    string customerId, 
+    IEnumerable<ILineItem> LineItems, 
+
+  ){
+
+    // address "completing" each type of order during implementation
+
+
+  }
+
+  IOrder CompleteOrder(string orderId){
+
+  }
+}
+
+
+interface ICustomerManager<CustomerType> {
+  CustomerType AddCustomer
+}
+

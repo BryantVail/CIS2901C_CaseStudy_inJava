@@ -5,9 +5,9 @@ public class RecordDoesNotExistException extends RuntimeException{
 
     public RecordDoesNotExistException(String identifier){
         super("" +
-            "identifier: " +
+            "identifier: \"" +
             identifier +
-            "was not found to be associated with a record");
+            "\" has not resolved to a record");
         this.Identifier = identifier;
     }
 

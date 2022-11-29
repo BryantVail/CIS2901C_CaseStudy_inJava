@@ -1,0 +1,78 @@
+
+
+
+
+/*CUSTOMER PROCEDURES*/
+
+-- AddCustomer 
+
+Delimiter //
+Create Procedure AddCustomer(
+  IN emailAddress_param varchar(255), 
+  IN firstName_param varchar(255), 
+  IN lastName_param varchar(255))
+BEGIN 
+
+  Insert into Customers(
+    EmailAddress, 
+    FirstName, 
+    LastName)
+  Values(
+    emailAddress_param, 
+    firstName_param, 
+    lastName_param );
+
+END // 
+Delimiter ;
+
+
+Delimiter //
+Create Procedure GetCustomerBy_EmailAddress_FirstName_And_LastName(
+  IN emailAddress_param varchar(255), 
+  IN firstName_param varchar(255), 
+  IN lastName_param varchar(255))
+
+  BEGIN 
+    SELECT *
+    From Customers customers 
+    Where 
+      EmailAddress = emailAddress_param 
+      AND 
+      FirstName = firstName_param 
+      AND 
+      LastName = lastName_param;
+
+  END //
+  Delimiter ;
+
+
+-- GetAllCustomers
+Delimiter //
+Create Procedure GetAllCustomers()
+  BEGIN 
+    SELECT *
+    FROM Customers;
+
+  END //
+Delimiter ;
+
+-- GetCustomerById
+Delimiter //
+Create Procedure GetCustomerById(
+  IN id INT 
+)
+  BEGIN
+    SELECT * 
+    FROM Customers 
+    WHERE 
+      Id = id;
+  END //
+Delimiter ;
+
+
+
+
+
+    SELECT * 
+    FROM Customers
+    WHERE Id = (SELECT Last_Insert_Id());
