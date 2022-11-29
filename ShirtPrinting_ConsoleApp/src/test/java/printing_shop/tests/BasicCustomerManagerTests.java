@@ -40,7 +40,7 @@ public class BasicCustomerManagerTests {
           LocalDateTime.now());
 
         Mockito
-          .when(this.customerRepository.GetCustomer(anyString()))
+          .when(this.customerRepository.getAsync(anyString()))
           .thenReturn(testCustomerActive);
         Mockito
           .when(this.customerRepository.changeDeletedStatus(
@@ -61,35 +61,76 @@ public class BasicCustomerManagerTests {
               anyString(),
               true));
     }
-
+    
     @Test
-    public void ChangeDeletedStatus_given_deleted_customer_when_attempt_to_delete_then_DeletingDeletedRecordException_will_be_thrown(){
+    public void ChangeDeletedStatus_given_deleted_customer_when_attempt_to_delete_then_DeletingDeletedRecordException_will_be_thrown() {
+        
         // arrange
         Customer testCustomerDeleted = new Customer(
-         "1",
-         LocalDateTime.now(),
-         true,
-         "",
-         "",
-         "",
-         LocalDateTime.now());
-
+          "1",
+          LocalDateTime.now(),
+          true,
+          "",
+          "",
+          "",
+          LocalDateTime.now());
+        
         Mockito
-         .when(this.customerRepository.GetCustomer(anyString()))
-         .thenReturn(testCustomerDeleted);
-
+          .when(this.customerRepository.getAsync(anyString()))
+          .thenReturn(testCustomerDeleted);
+        
         ICustomerManager<Customer, AddCustomerRequest> basicCustomerManger =
-         new BasicCustomerManager(
-          this.customerRepository,
-          Mockito.mock(ILogger.class));
-
+          new BasicCustomerManager(
+            this.customerRepository,
+            Mockito.mock(ILogger.class));
+        
         // act
         // assert
         Assertions.assertThrows(
-         AttemptingChangeOfDeletedStatusToCurrentStatusException.class,
-         () -> basicCustomerManger.changeDeletedStatus(
-          anyString(),
-          true));
+          AttemptingChangeOfDeletedStatusToCurrentStatusException.class,
+          () -> basicCustomerManger.changeDeletedStatus(
+            anyString(),
+            true));
     }
 
+    // UPDATE METHODS
+    @Test
+    public void updateEmailAddress_given_a_non_null_string_when_the_email_is_invalid_then_returns_argument_exception(){
+        // arrange
+        ICustomerManager<Customer, AddCustomerRequest> basicCustomerManager =
+          new BasicCustomerManager(
+            this.customerRepository,
+            Mockito.mock(ILogger.class));
+            
+        // act
+        // assert
+    }
+    
+    @Test
+    public void UpdateEmailAddress_given_a_valid_email_address_when_the_email_is_already_used_by_an_existing_account_then_throw_argument_exception(){
+        // arrange
+        String existingEmailAddress = "email@email.com";
+        var emailAlreadyExistsCustomer = new Customer(
+          "1111111",
+          LocalDateTime.now().minusDays(20),
+          false,
+          existingEmailAddress,
+          "first",
+          "last",
+          LocalDateTime.now().minusDays(10));
+        Mockito.when(this.customerRepository.getByEmailAddress(anyString())).thenReturn(emailAlreadyExistsCustomer);
+        
+        ICustomerManager<Customer, AddCustomerRequest> basicCustomerManager =
+          new BasicCustomerManager(
+            this.customerRepository,
+            Mockito.mock(ILogger.class));
+        
+        // act
+        // assert
+        Assertions.assertThrows(
+          IllegalArgumentException.class,
+          () -> basicCustomerManager.updateEmailAddress(
+          anyString(),
+          existingEmailAddress));
+    }
 }

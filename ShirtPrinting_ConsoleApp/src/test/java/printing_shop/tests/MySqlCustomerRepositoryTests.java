@@ -6,7 +6,6 @@ import printing_shop.MySqlCustomerRepository;
 import printing_shop.domain.AddCustomerRequest;
 import printing_shop.domain.Customer;
 import printing_shop.domain.exceptions.DatabaseInternalException;
-import printing_shop.domain.exceptions.AttemptingChangeOfDeletedStatusToCurrentStatusException;
 import printing_shop.domain.exceptions.RecordDoesNotExistException;
 
 import java.time.LocalDateTime;
@@ -62,7 +61,7 @@ class MySqlCustomerRepositoryTests {
         int id = 1020304;
 
         // act
-        var customer = mySqlCustomerRepository.GetCustomer(String.valueOf(id));
+        var customer = mySqlCustomerRepository.getAsync(String.valueOf(id));
 
         // assert
         Assertions.assertEquals("bryanttv@outlook.com", customer.EmailAddress);
@@ -80,7 +79,7 @@ class MySqlCustomerRepositoryTests {
         // assert
         Assertions.assertThrows(
                 RecordDoesNotExistException.class,
-                () -> mySqlCustomerRepository.GetCustomer(String.valueOf(id)));
+                () -> mySqlCustomerRepository.getAsync(String.valueOf(id)));
     }
 
     @Test void GetCustomers_given_an_active_database_returns_more_than_10_records(){
@@ -104,7 +103,7 @@ class MySqlCustomerRepositoryTests {
     
     @Test
     public void changeDeletedStatus_given_newly_created_customer_when_deleted_then_StoredProcedure_runs_without_databaseException_and_status_is_changed_in_database(){
-
+    
     }
     
     @Test

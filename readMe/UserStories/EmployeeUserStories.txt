@@ -1,0 +1,14 @@
+
+
+Shop Employee/Printer: 
+  user takes phone call of customer to place initial order
+  so that: they can get the request in the system and ultimately get 
+  the order to a state that can be acted on by the company to fulfill the 
+  order.
+
+  user takes phone call of customer to update an order WITHOUT order number
+  so that: the order can be updated, and progress of current order managed, 
+
+  
+
+

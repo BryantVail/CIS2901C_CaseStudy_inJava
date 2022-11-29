@@ -1,0 +1,16 @@
+
+
+update: 
+  customer: 
+    attributes to update: 
+      email, 
+        CommonRegex.isValidEmailAddress(String);
+        customerRepository.updateEmailAddress;
+        DB.procedure.updateEmailAddress; 
+        BasicCustomerManager.updateEmailAddress
+      first & last name, 
+
+create: 
+  
+
+

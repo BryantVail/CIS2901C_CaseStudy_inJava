@@ -4,6 +4,7 @@ import printing_shop.domain.AddCustomerRequest;
 import printing_shop.domain.Customer;
 import printing_shop.domain.exceptions.DatabaseInternalException;
 import printing_shop.domain.exceptions.IdCannotBeParsedToCorrectTypeException;
+import printing_shop.domain.exceptions.IdentifierNotParsableToCorrectTypeException;
 import printing_shop.domain.exceptions.RecordDoesNotExistException;
 import printing_shop.utility.MySqlTypeConverter;
 
@@ -98,7 +99,7 @@ public class MySqlCustomerRepository
     }
 
     @Override
-    public Customer GetCustomer(String id) throws RecordDoesNotExistException, DatabaseInternalException {
+    public Customer getAsync(String id) throws RecordDoesNotExistException, DatabaseInternalException, IdentifierNotParsableToCorrectTypeException {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
 
@@ -130,6 +131,8 @@ public class MySqlCustomerRepository
             throw new DatabaseInternalException(e.getMessage()+"\n\nconfiguration or connection problem @ object_Not_Found");
         } catch (SQLException e) {
             throw new DatabaseInternalException(e.getMessage());
+        } catch (NumberFormatException exception){
+            throw new IdentifierNotParsableToCorrectTypeException("id of: "+id+" is not a valid customerId");
         }
     }
 
@@ -165,11 +168,7 @@ public class MySqlCustomerRepository
         }
     }
 
-    @Override
-    public Customer UpdateCustomer(Customer customer) {
-        return null;
-    }
-
+    
     @Override
     public Customer changeDeletedStatus(String id, boolean changeToDeleted) {
         try{
@@ -202,7 +201,100 @@ public class MySqlCustomerRepository
             throw new DatabaseInternalException(e.getMessage());
         }
     }
-
+    
+    @Override
+    public Customer updateEmailAddress(String id, String newEmailAddress) {
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            int idOfInt = Integer.parseInt(id);
+            
+            Connection connection =
+              DriverManager.getConnection(this.connectionString);
+            
+            var callableStatement =
+              connection.prepareCall("{call customers_updateEmailAddress(?, ?)}");
+            callableStatement.setInt("customerId", idOfInt);
+            callableStatement.setString("newEmailAddress", newEmailAddress);
+            
+            var resultSet = callableStatement.executeQuery();
+            if(resultSet.next()){
+                var customer = createCustomer(resultSet);
+                connection.close();
+                return customer;
+            }else{
+                connection.close();
+                throw new SQLException("no values returned from database call");
+            }
+        } catch (ClassNotFoundException e) {
+            throw new DatabaseInternalException("runtime error connecting to the database");
+        } catch (SQLException e) {
+            throw new DatabaseInternalException(e.getMessage());
+        } catch(NumberFormatException exception){
+            throw new IdentifierNotParsableToCorrectTypeException("id of: "+id+" not a valid customerId");
+        }
+    }
+    
+    @Override
+    public Customer updateFirstName(String id, String newFirstName){
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            int idOfInt = Integer.parseInt(id);
+            
+            Connection connection = DriverManager.getConnection(this.connectionString);
+            
+            var callableStatement = connection.prepareCall(
+              "{call customers_updateFirstName(?, ?)}");
+            callableStatement.setInt("customerId", idOfInt);
+            callableStatement.setString("newFirstName", newFirstName);
+            
+            var resultSet = callableStatement.executeQuery();
+            if(resultSet.next() == true){
+                var customer = createCustomer(resultSet);
+                connection.close();
+                return customer;
+            }else{
+                connection.close();
+                throw new DatabaseInternalException("no records returned after attempted update, database malfunction has occurred");
+            }
+        } catch (ClassNotFoundException e) {
+            throw new DatabaseInternalException("runtime error connecting to the database");
+        }catch(NumberFormatException exception){
+            throw new IdentifierNotParsableToCorrectTypeException("id of: "+id+" not a valid customerId");
+        } catch (SQLException e) {
+            throw new DatabaseInternalException(e.getMessage());
+        }
+    }
+    
+    @Override
+    public Customer updateLastName(String id, String newLastName){
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            int idOfInt = Integer.parseInt(id);
+            
+            Connection connection = DriverManager.getConnection(this.connectionString);
+            var callableStatement = connection.prepareCall(
+              "{call customers_updateLastName(?, ?)}");
+            callableStatement.setInt("customerId", idOfInt);
+            callableStatement.setString("newLastName", newLastName);
+            
+            var resultSet = callableStatement.executeQuery();
+            if(resultSet.next() == true){
+                var customer = createCustomer(resultSet);
+                connection.close();
+                return customer;
+            }else{
+                connection.close();
+                throw new DatabaseInternalException("call to update lastName did not operate properly on the database, please try again or contact your administrator if it persists");
+            }
+        } catch (ClassNotFoundException e) {
+            throw new DatabaseInternalException("database provider class not found");
+        } catch (NumberFormatException exception){
+            throw new IdentifierNotParsableToCorrectTypeException("id of: "+id+" is not a valid identifier for customer");
+        } catch (SQLException e) {
+            throw new DatabaseInternalException("database layer exception");
+        }
+    }
+    
     private Customer createCustomer(ResultSet resultSet) throws SQLException {
         return new Customer(
                 String.valueOf(resultSet.getInt("Id")),
