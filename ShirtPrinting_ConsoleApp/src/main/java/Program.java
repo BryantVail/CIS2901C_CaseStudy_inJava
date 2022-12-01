@@ -6,6 +6,8 @@ import printing_shop.ICustomerManager;
 import printing_shop.ICustomerRepository;
 import printing_shop.MySqlCustomerRepository;
 import printing_shop.domain.AddCustomerRequest;
+import printing_shop.domain.AddInventoryProduct;
+import printing_shop.domain.InventoryProduct;
 import printing_shop.domain.Customer;
 import printing_shop.domain.exceptions.*;
 import printing_shop.utility.BasicLogger;
@@ -332,7 +334,9 @@ public class Program {
 		}
 	}
 	
+	public static void ManageBasicProducts(IProductManager<InventoryProduct, AddInventoryProduct> productManager){
 	
+	}
 	public static void printCustomer(Customer customer) {
 		System.out.println(
 			"id: " + customer.Id + ", " +
