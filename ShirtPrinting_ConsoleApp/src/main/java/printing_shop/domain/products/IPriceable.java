@@ -1,4 +1,4 @@
-package printing_shop.domain;
+package printing_shop.domain.products;
 
 public interface IPriceable{
 	double getRetailPrice();

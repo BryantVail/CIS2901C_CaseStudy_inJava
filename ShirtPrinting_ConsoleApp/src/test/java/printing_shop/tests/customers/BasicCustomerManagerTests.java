@@ -1,13 +1,13 @@
-package printing_shop.tests;
+package printing_shop.tests.customers;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import printing_shop.BasicCustomerManager;
-import printing_shop.ICustomerManager;
-import printing_shop.ICustomerRepository;
-import printing_shop.domain.AddCustomerRequest;
-import printing_shop.domain.Customer;
+import printing_shop.domain.customers.BasicCustomerManager;
+import printing_shop.domain.customers.ICustomerManager;
+import printing_shop.domain.customers.ICustomerRepository;
+import printing_shop.domain.customers.AddCustomerRequest;
+import printing_shop.domain.customers.Customer;
 import printing_shop.domain.exceptions.DatabaseInternalException;
 import printing_shop.domain.exceptions.AttemptingChangeOfDeletedStatusToCurrentStatusException;
 import printing_shop.utility.ILogger;

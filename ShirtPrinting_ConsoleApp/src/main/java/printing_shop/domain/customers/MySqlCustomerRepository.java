@@ -1,18 +1,13 @@
-package printing_shop;
+package printing_shop.domain.customers;
 
-import printing_shop.domain.AddCustomerRequest;
-import printing_shop.domain.Customer;
 import printing_shop.domain.exceptions.DatabaseInternalException;
 import printing_shop.domain.exceptions.IdCannotBeParsedToCorrectTypeException;
 import printing_shop.domain.exceptions.IdentifierNotParsableToCorrectTypeException;
 import printing_shop.domain.exceptions.RecordDoesNotExistException;
 import printing_shop.utility.MySqlTypeConverter;
 
-import java.io.NotActiveException;
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MySqlCustomerRepository
         implements ICustomerRepository<Customer, AddCustomerRequest> {

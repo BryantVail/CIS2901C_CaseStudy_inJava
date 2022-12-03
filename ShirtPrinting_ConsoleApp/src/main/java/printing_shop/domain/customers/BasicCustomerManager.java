@@ -1,7 +1,5 @@
-package printing_shop;
+package printing_shop.domain.customers;
 
-import printing_shop.domain.AddCustomerRequest;
-import printing_shop.domain.Customer;
 import printing_shop.domain.exceptions.DatabaseInternalException;
 import printing_shop.domain.exceptions.AttemptingChangeOfDeletedStatusToCurrentStatusException;
 import printing_shop.domain.exceptions.RecordDoesNotExistException;

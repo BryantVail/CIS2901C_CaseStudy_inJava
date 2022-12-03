@@ -1,4 +1,4 @@
-package printing_shop;
+package printing_shop.domain.customers;
 
 public interface ICustomerRepository<CustomerType, AddRequestType> {
 	CustomerType AddCustomer(AddRequestType request);

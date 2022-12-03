@@ -1,15 +1,11 @@
 
 
-import printing_shop.BasicCustomerManager;
+import printing_shop.domain.customers.*;
 import printing_shop.consoleUI.ConsoleUI;
-import printing_shop.ICustomerManager;
-import printing_shop.ICustomerRepository;
-import printing_shop.MySqlCustomerRepository;
-import printing_shop.domain.AddCustomerRequest;
-import printing_shop.domain.AddInventoryProduct;
-import printing_shop.domain.InventoryProduct;
-import printing_shop.domain.Customer;
 import printing_shop.domain.exceptions.*;
+import printing_shop.domain.products.AddProductRequest;
+import printing_shop.domain.products.BaseProduct;
+import printing_shop.domain.products.IProductManager;
 import printing_shop.utility.BasicLogger;
 import printing_shop.utility.ILogger;
 
@@ -334,7 +330,8 @@ public class Program {
 		}
 	}
 	
-	public static void ManageBasicProducts(IProductManager<InventoryProduct, AddInventoryProduct> productManager){
+	public static void ManageBasicProducts(
+		IProductManager<BaseProduct, AddProductRequest> productManager){
 	
 	}
 	public static void printCustomer(Customer customer) {

@@ -1,4 +1,4 @@
-package printing_shop.domain;
+package printing_shop.domain.customers;
 
 public class AddCustomerRequest {
     public AddCustomerRequest(){

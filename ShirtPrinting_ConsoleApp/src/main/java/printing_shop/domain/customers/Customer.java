@@ -1,4 +1,4 @@
-package printing_shop.domain;
+package printing_shop.domain.customers;
 
 import java.time.LocalDateTime;
 

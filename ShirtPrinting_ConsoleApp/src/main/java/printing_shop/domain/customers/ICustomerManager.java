@@ -1,4 +1,4 @@
-package printing_shop;
+package printing_shop.domain.customers;
 
 import printing_shop.domain.exceptions.DatabaseInternalException;
 import printing_shop.domain.exceptions.IdentifierNotParsableToCorrectTypeException;

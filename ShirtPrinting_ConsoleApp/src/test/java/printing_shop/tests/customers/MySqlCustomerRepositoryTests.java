@@ -1,10 +1,10 @@
-package printing_shop.tests;
+package printing_shop.tests.customers;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import printing_shop.MySqlCustomerRepository;
-import printing_shop.domain.AddCustomerRequest;
-import printing_shop.domain.Customer;
+import printing_shop.domain.customers.MySqlCustomerRepository;
+import printing_shop.domain.customers.AddCustomerRequest;
+import printing_shop.domain.customers.Customer;
 import printing_shop.domain.exceptions.DatabaseInternalException;
 import printing_shop.domain.exceptions.RecordDoesNotExistException;
 

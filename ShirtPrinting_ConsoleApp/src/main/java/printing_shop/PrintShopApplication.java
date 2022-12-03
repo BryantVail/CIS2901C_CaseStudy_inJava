@@ -1,5 +1,6 @@
 package printing_shop;
 
+import printing_shop.domain.customers.ICustomerManager;
 import printing_shop.utility.IApplication;
 import printing_shop.utility.IConsoleApplication;
 
