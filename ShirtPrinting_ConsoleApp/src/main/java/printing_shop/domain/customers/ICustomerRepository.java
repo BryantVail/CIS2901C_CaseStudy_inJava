@@ -1,7 +1,7 @@
 package printing_shop.domain.customers;
 
 public interface ICustomerRepository<CustomerType, AddRequestType> {
-	CustomerType AddCustomer(AddRequestType request);
+	CustomerType add(AddRequestType request);
 	
 	Iterable<CustomerType> getAsync();
 	

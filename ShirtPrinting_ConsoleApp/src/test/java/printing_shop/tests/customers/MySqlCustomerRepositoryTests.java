@@ -27,7 +27,7 @@ class MySqlCustomerRepositoryTests {
                 connectionString);
         String emailAddress = "email_"+ LocalDateTime.now().toString()+"@gmail.com";
         // act
-        var customer = mySqlCustomerRepository.AddCustomer(new AddCustomerRequest(
+        var customer = mySqlCustomerRepository.add(new AddCustomerRequest(
                 emailAddress,
                 "firstName",
                 "lastName"
@@ -49,7 +49,7 @@ class MySqlCustomerRepositoryTests {
         // assert
         Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> mySqlCustomerRepository.AddCustomer(addCustomerRequest));
+                () -> mySqlCustomerRepository.add(addCustomerRequest));
     }
 
     @Test

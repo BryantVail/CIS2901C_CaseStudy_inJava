@@ -23,7 +23,7 @@ public class MySqlCustomerRepository
     }
 
     @Override
-    public Customer AddCustomer(AddCustomerRequest request) {
+    public Customer add(AddCustomerRequest request) {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection = DriverManager.getConnection(

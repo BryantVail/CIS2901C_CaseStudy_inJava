@@ -22,7 +22,7 @@ public class BasicCustomerManager
 	@Override
 	public Customer AddCustomer(AddCustomerRequest request) {
 		
-		return (Customer) customerRepository.AddCustomer(request);
+		return (Customer) customerRepository.add(request);
 	}
 	
 	@Override
