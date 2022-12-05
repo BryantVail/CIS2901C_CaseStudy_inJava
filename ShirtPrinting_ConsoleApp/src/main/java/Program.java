@@ -30,6 +30,7 @@ public class Program {
 		ICustomerManager customerManager = new BasicCustomerManager(
 			customerRepository,
 			logger);
+		var productRepository = new MySqlTShirtRepository();
 		
 		while (true) {
 			System.out.println(
@@ -57,8 +58,7 @@ public class Program {
 						"I'm sorry, this feature is not ready");
 					break;
 				case "p":
-					System.out.println(
-						"I'm sorry, this feature is not ready");
+					this.ManageProducts();
 					break;
 				default:
 					break;
@@ -330,9 +330,9 @@ public class Program {
 		}
 	}
 	
-	public static void ManageBasicProducts(
+	public static void ManageProducts(
 		IProductManager<BaseProduct, AddProductRequest> productManager){
-	
+		
 	}
 	public static void printCustomer(Customer customer) {
 		System.out.println(

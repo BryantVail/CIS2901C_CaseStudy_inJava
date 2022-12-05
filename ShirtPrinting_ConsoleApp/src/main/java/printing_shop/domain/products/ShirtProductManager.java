@@ -2,10 +2,21 @@ package printing_shop.domain.products;
 
 public class ShirtProductManager implements IProductManager<BaseProduct, AddProductRequest>{
 	
+	private final IProductRepository<BaseProduct, AddProductRequest> shirtProductRepository;
 	
+	public ShirtProductManager(
+		IProductRepository<BaseProduct, AddProductRequest> shirtProductRepository
+	){
+		this.shirtProductRepository = shirtProductRepository;
+	}
 	@Override
 	public BaseProduct add(AddProductRequest addProductRequest) {
-		return null;
+		var newProduct =
+			this.shirtProductRepository.add(addProductRequest);
+		// log
+		
+		return newProduct;
+		
 	}
 	
 	@Override
