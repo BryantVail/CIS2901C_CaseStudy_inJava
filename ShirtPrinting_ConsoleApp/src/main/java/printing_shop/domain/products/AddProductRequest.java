@@ -77,7 +77,7 @@ public class AddProductRequest {
 		}
 	}
 	
-	public double getMarkupPercentage(){
+	public int getMarkupPercentage(){
 		return this.MarkupPercentage;
 	}
 }
