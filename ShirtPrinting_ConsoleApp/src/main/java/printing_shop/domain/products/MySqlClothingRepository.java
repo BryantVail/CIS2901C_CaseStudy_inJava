@@ -18,6 +18,8 @@ public class MySqlClothingRepository implements IProductRepository<ClothingProdu
 		var baseProduct =
 			this.mySqlProductRepository.add(baseProductRequest);
 		
+		// run stored procedure
+		
 	}
 	
 	@Override

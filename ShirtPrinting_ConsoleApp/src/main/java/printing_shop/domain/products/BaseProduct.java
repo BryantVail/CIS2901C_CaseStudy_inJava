@@ -15,6 +15,7 @@ public class BaseProduct implements IPriceable {
 	
 	public BaseProduct(
 		String id,
+		double cost,
 		String description,
 		String make,
 		String model,
@@ -27,6 +28,8 @@ public class BaseProduct implements IPriceable {
 		}else{
 			this.Id = id;
 		}
+		
+		setCost(cost);
 		
 		if(description.isEmpty() == true){
 			throw new IllegalArgumentException(

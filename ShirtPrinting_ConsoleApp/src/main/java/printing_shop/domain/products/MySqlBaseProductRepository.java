@@ -7,11 +7,11 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class MySqlProductRepository implements IProductRepository<BaseProduct, AddProductRequest>{
+public class MySqlBaseProductRepository implements IProductRepository<BaseProduct, AddProductRequest>{
 	
 	private final String connectionString;
 	
-	public MySqlProductRepository(String connectionString) {
+	public MySqlBaseProductRepository(String connectionString) {
 		this.connectionString = connectionString;
 	}
 	
@@ -19,10 +19,15 @@ public class MySqlProductRepository implements IProductRepository<BaseProduct, A
 		try {
 			return new BaseProduct(
 				String.valueOf(resultSet.getInt("Id")),
-				
-			)
+				resultSet.getDouble("cost"),
+				resultSet.getString("description"),
+				resultSet.getString("make"),
+				resultSet.getString("model"),
+				resultSet.getString("name"),
+				resultSet.getString("type"),
+				resultSet.getInt("markupPercentage"));
 		} catch (SQLException e) {
-			throw new DatabaseInternalException("code command with database object error");u8iu8i
+			throw new DatabaseInternalException("code command with database object error");
 		}
 	}
 	@Override
@@ -34,12 +39,15 @@ public class MySqlProductRepository implements IProductRepository<BaseProduct, A
 			
 			// add TShirtProduct
 			var callableStatement = connection.prepareCall(
-				"{call addProduct(?, ?, ?, ?, ?, ?)}");
+				"{call addBaseProduct(?,?,?,?,?,?,?)}");// 7 params
+			
+			callableStatement.setDouble("cost", request.getCost());
 			callableStatement.setString("description", request.Description);
 			callableStatement.setString("make", request.Make);
-			callableStatement.setString("model", request.Model);
-			callableStatement.setString("type", request.Type);
 			callableStatement.setInt("markupPercentage", request.getMarkupPercentage());
+			callableStatement.setString("model", request.Model);
+			callableStatement.setString("name", request.Name);
+			callableStatement.setString("type", request.Type);
 			
 			var resultSet = callableStatement.executeQuery();
 			if(resultSet.next()){
