@@ -7,3 +7,15 @@ Add:
 	program
 
 
+10:51 PM 12/9/2022
+	MySqlClothingRepository
+		add()
+	MySqlTShirtRepository
+		add()
+	TShirtProduct
+		TShirtProduct(...), 
+		
+	ShirtProductManager
+		add()
+		
+	ProductRepositoryFactory(String type)

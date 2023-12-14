@@ -1,0 +1,41 @@
+Manual UI Tests:
+
+
+  customers: 
+    update: 
+      select "Upate" as the action to do: 
+        empty string: 
+          "c
+           
+           ",
+        "__" (two spaces)
+        "UPDATE"
+        "UpDaTe", 
+        "update",
+      search for customer: 
+        empty string, 
+        non-email, 
+        no character + [ENTER],
+        email not in the system,
+        existing email 
+          with leading space, 
+          with trailing space, 
+          with no leading/trailing space, 
+        entering email to update:
+          invalid emails: 
+            @chars.com 
+            chars@chars 
+          valid email & verify update: 
+          invalid email and exit
+
+      firstName:
+        empty string, 
+        1 char, 
+        exit
+      lastName:
+        empty string, 
+        1 char, 
+        exit 
+
+
+

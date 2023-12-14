@@ -1,6 +1,7 @@
 package printing_shop.domain.products;
 
 import printing_shop.domain.exceptions.DatabaseInternalException;
+import printing_shop.utility.MySqlTypeConverter;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,7 +21,11 @@ public class MySqlBaseProductRepository implements IProductRepository<BaseProduc
 			return new BaseProduct(
 				String.valueOf(resultSet.getInt("Id")),
 				resultSet.getDouble("cost"),
+				MySqlTypeConverter.getLocalDateTime(
+					resultSet.getString("createdDateTime")),
 				resultSet.getString("description"),
+				MySqlTypeConverter.getLocalDateTime(
+					resultSet.getString("LastUpdated")),
 				resultSet.getString("make"),
 				resultSet.getString("model"),
 				resultSet.getString("name"),

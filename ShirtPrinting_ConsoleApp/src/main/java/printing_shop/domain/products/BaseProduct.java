@@ -2,7 +2,11 @@ package printing_shop.domain.products;
 
 import printing_shop.domain.exceptions.ExceptionMessages;
 
+import java.time.LocalDateTime;
+
 public class BaseProduct implements IPriceable {
+	public final LocalDateTime LastUpdated;
+	public final LocalDateTime CreatedDateTime;
 	public String Id;
 	private double Cost;
 	public final String Description;
@@ -16,7 +20,9 @@ public class BaseProduct implements IPriceable {
 	public BaseProduct(
 		String id,
 		double cost,
+		LocalDateTime createdDateTime,
 		String description,
+		LocalDateTime lastUpdated,
 		String make,
 		String model,
 		String name,
@@ -29,6 +35,8 @@ public class BaseProduct implements IPriceable {
 			this.Id = id;
 		}
 		
+		this.CreatedDateTime = createdDateTime;
+		
 		setCost(cost);
 		
 		if(description.isEmpty() == true){
@@ -37,6 +45,8 @@ public class BaseProduct implements IPriceable {
 		}else{
 			this.Description = description;
 		}
+		
+		this.LastUpdated = lastUpdated;
 		
 		if(make.isEmpty() == true){
 			throw new IllegalArgumentException(

@@ -1,0 +1,11 @@
+
+
+IProductManager<ProductType, AddProductRequestType>: 
+  AddProduct(AddProdctRequestType addProduct): ProductType
+  Get(): List<ProductType>, 
+  Get(string id): ProductType, 
+  Delete(string id): boolean, 
+  UpdateDescription(string id, string new Description);
+
+
+
